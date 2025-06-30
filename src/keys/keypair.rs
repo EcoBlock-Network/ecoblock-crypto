@@ -1,8 +1,10 @@
+use base64::Engine;
 use ed25519_dalek::{
     SigningKey, VerifyingKey, Signature, Signer, Verifier, SignatureError
 };
 use rand::rngs::OsRng;
 use rand::RngCore;
+use crate::signature::Signature as WrappedSignature;
 
 pub struct CryptoKeypair {
     signing_key: SigningKey,
@@ -24,10 +26,12 @@ impl CryptoKeypair {
         }
     }
 
-    pub fn sign(&self, message: &[u8]) -> Signature {
-        self.signing_key.sign(message)
+    pub fn sign(&self, message: &[u8]) -> WrappedSignature {
+        let raw_signature = self.signing_key.sign(message);
+        let encoded = base64::engine::general_purpose::STANDARD.encode(raw_signature.to_bytes());
+        WrappedSignature(encoded)
     }
-
+    
     pub fn public_key(&self) -> VerifyingKey {
         self.verifying_key
     }
