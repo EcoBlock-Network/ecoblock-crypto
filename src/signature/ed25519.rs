@@ -9,14 +9,14 @@ impl Signature {
     pub fn verify(&self, public_key_b64: &str, payload: &[u8]) -> bool {
         let signature_bytes = match general_purpose::STANDARD.decode(&self.0) {
             Ok(sig) => sig,
-            Err(e) => {
+            Err(_) => {
                 return false;
             }
         };
 
         let public_key_bytes = match general_purpose::STANDARD.decode(public_key_b64) {
             Ok(pk) => pk,
-            Err(e) => {
+            Err(_) => {
                 return false;
             }
         };
@@ -37,14 +37,14 @@ impl Signature {
 
         let verifying_key = match VerifyingKey::from_bytes(&public_key_array) {
             Ok(key) => key,
-            Err(e) => {
+            Err(_) => {
                 return false;
             }
         };
 
         let dalek_signature = match DalekSignature::try_from(&signature_array[..]) {
             Ok(sig) => sig,
-            Err(e) => {
+            Err(_) => {
             return false;
             }
         };
