@@ -6,6 +6,7 @@ use rand::rngs::OsRng;
 use rand::RngCore;
 use crate::signature::Signature as WrappedSignature;
 
+#[derive(Debug, Clone)]
 pub struct CryptoKeypair {
     signing_key: SigningKey,
     verifying_key: VerifyingKey,
