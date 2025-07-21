@@ -40,4 +40,22 @@ impl CryptoKeypair {
     pub fn verify(&self, message: &[u8], signature: &Signature) -> Result<(), SignatureError> {
         self.verifying_key.verify(message, signature)
     }
+    pub fn from_bytes(bytes: &[u8]) -> Result<Self, String> {
+        if bytes.len() != 32 {
+            return Err("Seed must be 32 bytes".to_string());
+        }
+        let mut seed = [0u8; 32];
+        seed.copy_from_slice(bytes);
+        let signing_key = SigningKey::from_bytes(&seed);
+        let verifying_key = VerifyingKey::from(&signing_key);
+        Ok(Self { signing_key, verifying_key })
+    }
+
+    pub fn to_bytes(&self) -> Vec<u8> {
+        self.signing_key.to_bytes().to_vec()
+    }
+
+    pub fn public_key_hex(&self) -> String {
+        hex::encode(self.verifying_key.to_bytes())
+    }
 }
