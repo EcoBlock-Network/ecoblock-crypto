@@ -4,9 +4,9 @@ Provides cryptographic primitives for secure, verifiable and interoperable data 
 
 Purpose
 -------
-- Offer signature generation and verification primitives (Ed25519), keypair management and utilities.
-- Provide deterministic hashing utilities used across the workspace (e.g. for IDs or canonical payloads).
-- Support key serialization / deserialization and safe persistence helpers used by bridge and storage layers.
+- Provide signature generation and verification primitives (Ed25519), keypair management and utilities.
+- Offer deterministic hashing utilities used across the workspace (e.g. for IDs or canonical payloads).
+- Support key serialization/deserialization and safe persistence helpers consumed by bridge and storage layers.
 
 What lives here
 ---------------
@@ -16,8 +16,7 @@ What lives here
 
 Stability contract
 ------------------
-- Public key and signature encoding (hex/base64) must remain stable across releases unless a migration plan is provided.
-- Algorithms choices (e.g. Ed25519) and canonical encodings used for signature verification are part of the compatibility contract. Changing them requires a documented migration and compatibility tests.
+The public key and signature encodings (hex/base64) and the canonical formats used for signing/verification must remain stable between releases unless a migration strategy is provided. Changing algorithm choices or canonical encodings requires a documented migration and compatibility tests to avoid breaking verification across the system.
 
 Quick example
 -------------
